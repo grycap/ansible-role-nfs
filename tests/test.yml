@@ -2,4 +2,4 @@
 - hosts: localhost
   become: true
   roles:
-  - ansible-role-nfs
+    - ansible-role-nfs
