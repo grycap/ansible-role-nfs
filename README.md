@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 NFS server/client Role 
 =======================
 
@@ -27,10 +29,3 @@ This an example of how to install a Torque/PBS cluster:
     - hosts: client
       roles:
       - { role: 'indigo-dc.nfs', nfs_mode: 'client', nfs_client_imports: [{ local: "/home", remote: "/home", server_host: "{{hostvars['server']['ansible_default_ipv4']}}" }] }
-
-License
--------
-
-Apache Licence v2 [1]
-
-[1] http://www.apache.org/licenses/LICENSE-2.0
