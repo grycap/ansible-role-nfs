@@ -1,0 +1,7 @@
+---
+# Type of node to install: front or wn
+nfs_mode: front
+# Shared directories to export
+nfs_exports: ""
+# Shared directories to mount
+nfs_client_imports: ""
