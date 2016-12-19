@@ -23,12 +23,12 @@ Example Playbook
 ```
   - hosts: server
   roles:
-  - { role: 'grycap.nfs', nfs_mode: 'server', nfs_exports: [{path: "/home", export: "vnode*.localdomain(fsid=0,rw,async,no_root_squash,no_subtree_check,insecure)"}] }
+  - { role: 'grycap.nfs', nfs_mode: 'front', nfs_exports: [{path: "/home", export: "vnode*.localdomain(fsid=0,rw,async,no_root_squash,no_subtree_check,insecure)"}] }
 ```
 ```
   - hosts: client
   roles:
-  - { role: 'grycap.nfs', nfs_mode: 'client', nfs_client_imports: [{ local: "/home", remote: "/home", server_host: "{{hostvars['server']['ansible_default_ipv4']}}" }] }
+  - { role: 'grycap.nfs', nfs_mode: 'wn', nfs_client_imports: [{ local: "/home", remote: "/home", server_host: "{{hostvars['server']['ansible_default_ipv4']}}" }] }
 ```
 
 Contributing to the role
