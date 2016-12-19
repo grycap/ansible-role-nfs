@@ -23,7 +23,7 @@ Example Playbook
 ```
   - hosts: server
   roles:
-  - { role: 'grycap.nfs', nfs_mode: 'server', nfs_exports: [{path: "/home", export: "vnode*(fsid=0,rw,async,no_root_squash,no_subtree_check,insecure)"}] }
+  - { role: 'grycap.nfs', nfs_mode: 'server', nfs_exports: [{path: "/home", export: "vnode*.localdomain(fsid=0,rw,async,no_root_squash,no_subtree_check,insecure)"}] }
 ```
 ```
   - hosts: client
