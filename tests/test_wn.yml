@@ -1,0 +1,4 @@
+---
+- hosts: all
+  roles:
+    - {role: role_under_test, nfs_mode: 'wn', nfs_client_imports: [{ local: "/tmp", remote: "/home", server_host: "localhost" }] }

@@ -14,5 +14,4 @@ galaxy_info:
     - trusty
   galaxy_tags:
     - nfs
-    - system
 dependencies: []
