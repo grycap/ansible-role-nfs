@@ -15,5 +15,5 @@
       name: "{{ item.local }}"
       src: "{{ item.server_host }}:{{ item.remote }}"
       state: mounted
-      fstype: nfs
+      fstype: nfs4
     with_items: "{{ nfs_client_imports }}"
