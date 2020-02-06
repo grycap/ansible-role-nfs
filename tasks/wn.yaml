@@ -9,6 +9,11 @@
 
   - name: Ensure rpcbind is running
     service: name=rpcbind state=started enabled=yes
+    when: not nfs_only_v4 
+
+  - name: Ensure rpcbind is stopped
+    service: name=rpcbind state=stopped enabled=no
+    when: nfs_only_v4
 
   - name: mount the shared directories
     mount:
