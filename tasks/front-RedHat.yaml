@@ -26,11 +26,13 @@
       service: nfs
       permanent: yes
       state: enabled
+      zone: public
     ignore_errors: yes      
 
-  - name: Open Firewalld nfs port
+  - name: Open Firewalld 892 port
     firewalld:
       port: 892/tcp
       permanent: yes
       state: enabled
+      zone: public
     ignore_errors: yes
