@@ -20,3 +20,13 @@
     notify:
      - restart rpcbind
      - restart nfs    
+
+  - firewalld:
+      service: nfs
+      permanent: yes
+      state: enabled
+
+  - firewalld:
+      port: 892/tcp
+      permanent: yes
+      state: enabled
