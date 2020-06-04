@@ -21,12 +21,5 @@
      - restart rpcbind
      - restart nfs    
 
-  - firewalld:
-      service: nfs
-      permanent: yes
-      state: enabled
-
-  - firewalld:
-      port: 892/tcp
-      permanent: yes
-      state: enabled
+  - command: firewall-cmd --zone=public --permanent --add-port=892/tcp
+  - command: firewall-cmd --zone=public --permanent --add-port=nfs/tcp
