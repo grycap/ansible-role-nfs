@@ -23,7 +23,7 @@
       
   - name: Open Firewalld nfs port
     firewalld:
-      service: nfs
+      port: 2049/tcp
       permanent: yes
       state: enabled
       zone: public
