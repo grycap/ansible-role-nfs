@@ -19,7 +19,18 @@
     - 'MOUNTD_PORT=892'
     notify:
      - restart rpcbind
-     - restart nfs    
+     - restart nfs
+      
+  - name: Open Firewalld nfs port
+    firewalld:
+      service: nfs
+      permanent: yes
+      state: enabled
+    ignore_errors: yes      
 
-  - command: firewall-cmd --zone=public --permanent --add-port=892/tcp
-  - command: firewall-cmd --zone=public --permanent --add-port=nfs/tcp
+  - name: Open Firewalld nfs port
+    firewalld:
+      port: 892/tcp
+      permanent: yes
+      state: enabled
+    ignore_errors: yes
