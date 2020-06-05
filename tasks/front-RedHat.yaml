@@ -20,19 +20,3 @@
     notify:
      - restart rpcbind
      - restart nfs
-      
-  - name: Open Firewalld nfs port
-    firewalld:
-      port: 2049/tcp
-      permanent: yes
-      state: enabled
-      zone: public
-    ignore_errors: yes      
-
-  - name: Open Firewalld 892 port
-    firewalld:
-      port: 892/tcp
-      permanent: yes
-      state: enabled
-      zone: public
-    ignore_errors: yes
