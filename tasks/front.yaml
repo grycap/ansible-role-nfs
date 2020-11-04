@@ -15,7 +15,7 @@
 #    when: nfs_exports_result|changed
 
   - name: Check if NFS server service is started
-    service: name={{NFS_SERVICE}} state=started
+    service: name={{NFS_SERVICE}} state=started enabled=yes
 
   - name: Ensure rpcbind is stopped
     service: name=rpcbind state=stopped enabled=no
