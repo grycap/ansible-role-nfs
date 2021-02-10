@@ -20,4 +20,32 @@
     - 'MOUNTD_PORT=892'
     notify:
      - restart rpcbind
-     - restart nfs
+     - restart nfs    
+
+  - block:
+    - name: Set RPCNFSDARGS
+      lineinfile:
+        path: /etc/sysconfig/nfs
+        regexp: '^RPCNFSDARGS='
+        line: RPCNFSDARGS="-N 2 -N 3"
+      register: nfs_config
+
+    - name: Restart nfs-config
+      service: name=nfs-config state=restarted
+      when: nfs_exports_result is changed
+
+    when: nfs_only_v4
+      
+  - name: Open Firewalld nfs port
+    firewalld:
+      service: nfs
+      permanent: yes
+      state: enabled
+    ignore_errors: yes      
+
+  - name: Open Firewalld nfs port
+    firewalld:
+      port: 892/tcp
+      permanent: yes
+      state: enabled
+    ignore_errors: yes
