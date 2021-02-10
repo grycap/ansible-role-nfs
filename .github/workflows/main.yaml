@@ -17,11 +17,10 @@ jobs:
     strategy:
       matrix:
         distro:
-          - "centos:7"
-          - "centos:8"
-          - "ubuntu:16.04"
-          - "ubuntu:18.04"
-          - "ubuntu:20.04"
+          - centos7
+          - centos8
+          - ubuntu2004
+          - ubuntu1804
 
     steps:
       - name: Check out the codebase.

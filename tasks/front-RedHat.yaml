@@ -19,7 +19,6 @@
     - 'LOCKD_UDPPORT=32769'
     - 'MOUNTD_PORT=892'
     notify:
-     - restart rpcbind
      - restart nfs    
 
   - block:
