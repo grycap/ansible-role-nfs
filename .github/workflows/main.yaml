@@ -13,7 +13,7 @@ jobs:
 
   molecule:
     name: Molecule
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-16.04
     strategy:
       matrix:
         distro:
@@ -22,6 +22,9 @@ jobs:
           - ubuntu1804
 
     steps:
+      - name: Show version
+        run: uname -a
+
       - name: Check out the codebase.
         uses: actions/checkout@v2
 
