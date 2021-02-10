@@ -13,6 +13,7 @@
       regexp: "^#{{item}}"
       line: "{{item}}"
       state: present
+      create: yes
     with_items:
     - 'LOCKD_TCPPORT=32803'
     - 'LOCKD_UDPPORT=32769'
