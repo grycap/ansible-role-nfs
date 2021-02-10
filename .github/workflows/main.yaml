@@ -19,7 +19,6 @@ jobs:
         distro:
           - centos7
           - centos8
-          - ubuntu2004
           - ubuntu1804
 
     steps:
