@@ -32,7 +32,7 @@
 
     - name: Restart nfs-config
       service: name=nfs-config state=restarted
-      when: nfs_exports_result is changed
+      when: nfs_config is changed
 
     when: nfs_only_v4
       
