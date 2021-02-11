@@ -2,8 +2,8 @@
 - name: Converge
   hosts: all
   become: true
-  tasks:
 
+  tasks:
     - name: "Include grycap.nfs"
       include_role:
         name: "ansible-role-nfs"
