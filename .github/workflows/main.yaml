@@ -20,11 +20,9 @@ jobs:
           - centos7
           - centos8
           - ubuntu1804
+          - ubuntu2004
 
     steps:
-      - name: Show version
-        run: uname -a
-
       - name: Check out the codebase.
         uses: actions/checkout@v2
 
