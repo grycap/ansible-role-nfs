@@ -4,6 +4,10 @@
   become: true
 
   tasks:
+    - file:
+        path: /tmp/test
+        state: directory
+
     - name: "Include grycap.nfs"
       include_role:
         name: "ansible-role-nfs"
