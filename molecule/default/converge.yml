@@ -5,7 +5,7 @@
 
   tasks:
     - file:
-        path: /tmp/test
+        path: /run/test
         state: directory
 
     - name: "Include grycap.nfs"
@@ -13,7 +13,7 @@
         name: "ansible-role-nfs"
       vars:
         nfs_mode: 'front'
-        nfs_exports: [{path: "/tmp/test", export: "wn*(fsid=0,rw,async,no_root_squash,no_subtree_check,insecure)"}]
+        nfs_exports: [{path: "/run/test", export: "wn*(fsid=0,rw,async,no_root_squash,no_subtree_check,insecure)"}]
 
     - name: "Include grycap.nfs"
       include_role:
