@@ -13,7 +13,7 @@
         name: "ansible-role-nfs"
       vars:
         nfs_mode: 'front'
-        nfs_exports: [{path: "/home", export: "wn*(fsid=0,rw,async,no_root_squash,no_subtree_check,insecure)"}]
+        nfs_exports: [{path: "/tmp/test", export: "wn*(fsid=0,rw,async,no_root_squash,no_subtree_check,insecure)"}]
 
     - name: "Include grycap.nfs"
       include_role:
