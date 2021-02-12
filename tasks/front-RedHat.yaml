@@ -7,6 +7,18 @@
   - set_fact: NFS_SERVICE="nfs-server"
     when: ansible_distribution_major_version >= "7"
  
+  - name: Ensure rpcbind is stopped
+    systemd:
+      name: rpcbind
+      enabled: no
+      masked: yes
+
+  - name: Ensure rpcbind.socket is stopped
+    systemd:
+      name: rpcbind.socket
+      enabled: no
+      masked: yes
+
   - name: NFS configure RH8
     ini_file:
       path: /etc/nfs.conf

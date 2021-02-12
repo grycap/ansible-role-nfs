@@ -10,6 +10,13 @@
   - name: Ensure rpcbind is stopped
     service: name=rpcbind state=stopped enabled=no
 
+  - name: Ensure rpcbind is stopped
+    systemd:
+      name: rpcbind
+      enabled: no
+      masked: yes
+    when: "ansible_os_family == 'RedHat'"
+
   - name: mount the shared directories
     mount:
       name: "{{ item.local }}"
