@@ -6,18 +6,34 @@
 
   - set_fact: NFS_SERVICE="nfs-server"
     when: ansible_distribution_major_version >= "7"
- 
-  - name: Lock NFS ports
-    lineinfile:
-      dest: /etc/sysconfig/nfs
-      regexp: "^#{{item}}"
-      line: "{{item}}"
-      state: present
-      create: yes
+
+  - name: Lock NFS ports RH8
+    ini_file:
+      path: /etc/nfs.conf
+      section: "{{item.section}}"
+      option: "{{item.option}}"
+      value: "{{item.value}}"
     with_items:
-    - 'LOCKD_TCPPORT=32803'
-    - 'LOCKD_UDPPORT=32769'
-    - 'MOUNTD_PORT=892'
+    - {'section': 'lockd', 'option': 'port', 'value': '32803'}
+    - {'section': 'lockd', 'option': 'udp-port', 'value': '32769'}
+    - {'section': 'mountd', 'option': 'port', 'value': '892'}
     notify:
      - restart rpcbind
      - restart nfs
+    when: ansible_distribution_major_version >=  "8"
+
+  - name: Lock NFS ports RH7
+    lineinfile:
+      dest: /etc/sysconfig/nfs
+      regexp: "{{item.regexp}}"
+      line: "{{item.line}}"
+      state: present
+      create: yes
+    with_items:
+    - {'regexp': 'LOCKD_TCPPORT', 'line': 'LOCKD_TCPPORT=32803'}
+    - {'regexp': 'LOCKD_UDPPORT', 'line': 'LOCKD_UDPPORT=32769'}
+    - {'regexp': 'MOUNTD_PORT', 'line': 'MOUNTD_PORT=892'}
+    notify:
+     - restart rpcbind
+     - restart nfs
+    when: ansible_distribution_major_version <=  "7"
