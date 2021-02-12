@@ -7,33 +7,32 @@
   - set_fact: NFS_SERVICE="nfs-server"
     when: ansible_distribution_major_version >= "7"
  
-  - name: Lock NFS ports
+  - name: NFS configure RH8
+    ini_file:
+      path: /etc/nfs.conf
+      section: "{{item.section}}"
+      option: "{{item.option}}"
+      value: "{{item.value}}"
+    with_items:
+    - {'section': 'nfsd', 'option': 'vers3', 'value': 'no'}
+    notify:
+     - restart nfs
+    when: ansible_distribution_major_version >=  "8"
+    register: nfs_config8
+
+  - name: NFS configure RH7
     lineinfile:
       dest: /etc/sysconfig/nfs
-      regexp: "^#{{item}}"
-      line: "{{item}}"
+      regexp: "{{item.regexp}}"
+      line: "{{item.line}}"
       state: present
+      create: yes
     with_items:
-    - 'LOCKD_TCPPORT=32803'
-    - 'LOCKD_UDPPORT=32769'
-    - 'MOUNTD_PORT=892'
+    - {'regexp': 'RPCNFSDARGS', 'line': 'RPCNFSDARGS="-N 2 -N 3"'}
     notify:
-     - restart rpcbind
-     - restart nfs    
-
-  - block:
-    - name: Set RPCNFSDARGS
-      lineinfile:
-        path: /etc/sysconfig/nfs
-        regexp: '^RPCNFSDARGS='
-        line: RPCNFSDARGS="-N 2 -N 3"
-      register: nfs_config
-
-    - name: Restart nfs-config
-      service: name=nfs-config state=restarted
-      when: nfs_exports_result is changed
-
-    when: nfs_only_v4
+     - restart nfs
+    when: ansible_distribution_major_version <=  "7"
+    register: nfs_config7
       
   - name: Open Firewalld nfs port
     firewalld:

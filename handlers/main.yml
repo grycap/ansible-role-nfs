@@ -1,8 +1,5 @@
 - name: restart idmapd
   service: name=idmapd state=restarted
 
-- name: restart rpcbind
-  service: name=rpcbind state=restarted
-
 - name: restart nfs
-  service: name=nfs state=restarted
+  service: name={{NFS_SERVICE}} state=restarted

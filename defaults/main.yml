@@ -5,5 +5,3 @@ nfs_mode: front
 nfs_exports: []
 # Shared directories to mount
 nfs_client_imports: []
-# Only enable NFSv4
-nfs_only_v4: false
