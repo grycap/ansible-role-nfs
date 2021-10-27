@@ -16,3 +16,11 @@
       - {'option': 'RPCNFSDOPTS', 'value': '-N 2 -N 3'}
       - {'option': 'RPCMOUNTDOPTS', 'value': '--manage-gids -N 2 -N 3'}
     when: nfs_only_v4 | bool
+
+  - name: Ensure rpcbind is running
+    service: name=rpcbind state=started enabled=yes
+    when: not nfs_only_v4 | bool
+
+  - name: Ensure rpcbind is stopped
+    service: name=rpcbind state=stopped enabled=no
+    when: nfs_only_v4 | bool

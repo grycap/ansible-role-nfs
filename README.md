@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![Build Status](https://travis-ci.org/grycap/ansible-role-nfs.svg?branch=master)](https://travis-ci.org/grycap/ansible-role-nfs)
+[![CI](https://github.com/grycap/ansible-role-nfs/workflows/CI/badge.svg)](https://github.com/grycap/ansible-role-nfs/actions?query=workflow%3ACI)
 
 NFS server/client Role
 =======================
@@ -17,6 +17,8 @@ The variables that can be passed to this role and a brief description about them
 	nfs_exports: ""
 	# Shared directories to mount
 	nfs_client_imports: ""
+	# Only enable NFSv4
+	nfs_only_v4: false
 
 Example Playbook
 ----------------
