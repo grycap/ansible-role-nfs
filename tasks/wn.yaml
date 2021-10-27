@@ -17,7 +17,7 @@
 
   - name: Set FSTYPE to nfs
     set_fact: FSTYPE="nfs"
-    when: nfs_only_v4 | bool
+    when: not nfs_only_v4 | bool
   
   - name: Set FSTYPE to nfs4
     set_fact: FSTYPE="nfs4"
