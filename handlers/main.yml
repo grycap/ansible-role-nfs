@@ -3,3 +3,7 @@
 
 - name: restart nfs
   service: name={{NFS_SERVICE}} state=restarted
+
+- name: restart rpcbind
+  service: name=rpcbind state=restarted
+  when: nfs_only_v4 | bool

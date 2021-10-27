@@ -7,13 +7,26 @@
     yum: name=nfs-utils
     when: "ansible_os_family == 'RedHat'"
 
+  - name: Ensure rpcbind is running
+    service: name=rpcbind state=started enabled=yes
+    when: not nfs_only_v4 | bool
+
   - name: Ensure rpcbind is stopped
     service: name=rpcbind state=stopped enabled=no
+    when: nfs_only_v4 | bool
+
+  - name: Set FSTYPE to nfs
+    set_fact: FSTYPE="nfs"
+    when: nfs_only_v4 | bool
+  
+  - name: Set FSTYPE to nfs4
+    set_fact: FSTYPE="nfs4"
+    when: nfs_only_v4 | bool
 
   - name: mount the shared directories
     mount:
       name: "{{ item.local }}"
       src: "{{ item.server_host }}:{{ item.remote }}"
       state: mounted
-      fstype: nfs4
+      fstype: "{{ FSTYPE }}"
     with_items: "{{ nfs_client_imports }}"
