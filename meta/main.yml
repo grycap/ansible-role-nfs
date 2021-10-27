@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: mfs
   author: Miguel Caballer
   description: NFS server/client
   company:  GRyCAP
