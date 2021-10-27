@@ -3,3 +3,24 @@
     apt: name=nfs-kernel-server,nfs-common update_cache=yes cache_valid_time=3600
 
   - set_fact: NFS_SERVICE="nfs-kernel-server"
+
+  - name: NFSv4 configure options
+    ini_file:
+      path: /etc/default/nfs-common
+      section: 
+      option: "{{item.option}}"
+      value: "{{item.value}}"
+    with_items: 
+      - {'option': 'NEED_STATD', 'value': 'no'}
+      - {'option': 'NEED_IDMAPD', 'value': 'yes'}
+      - {'option': 'RPCNFSDOPTS', 'value': '-N 2 -N 3'}
+      - {'option': 'RPCMOUNTDOPTS', 'value': '--manage-gids -N 2 -N 3'}
+    when: nfs_only_v4 | bool
+
+  - name: Ensure rpcbind is running
+    service: name=rpcbind state=started enabled=yes
+    when: not nfs_only_v4 | bool
+
+  - name: Ensure rpcbind is stopped
+    service: name=rpcbind state=stopped enabled=no
+    when: nfs_only_v4 | bool

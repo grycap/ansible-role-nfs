@@ -17,6 +17,8 @@ The variables that can be passed to this role and a brief description about them
 	nfs_exports: ""
 	# Shared directories to mount
 	nfs_client_imports: ""
+	# Only enable NFSv4
+	nfs_only_v4: false
 
 Example Playbook
 ----------------

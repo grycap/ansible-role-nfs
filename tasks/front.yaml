@@ -6,12 +6,22 @@
 
   - include: "front-{{ansible_os_family}}.yaml"
 
-  - name: Ensure rpcbind is running
-    service: name=rpcbind state=started enabled=yes
-
   - name: Restart NFS server service
     service: name={{NFS_SERVICE}} state=restarted
     when: nfs_exports_result is changed
 
   - name: Check if NFS server service is started
-    service: name={{NFS_SERVICE}} state=started
+    service: name={{NFS_SERVICE}} state=started enabled=yes
+
+  - name: Ensure rpcbind is running
+    service: name=rpcbind state=started enabled=yes
+    when: not nfs_only_v4 | bool
+
+  - name: Ensure rpcbind is stopped
+    service: name=rpcbind state=stopped enabled=no
+    when: nfs_only_v4 | bool
+
+  - name: Ensure rpcbind.socket is stopped
+    service: name=rpcbind.socket state=stopped enabled=no
+    when: ansible_os_family == "RedHat"
+    when: nfs_only_v4 | bool

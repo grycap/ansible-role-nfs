@@ -6,34 +6,65 @@
 
   - set_fact: NFS_SERVICE="nfs-server"
     when: ansible_distribution_major_version >= "7"
+ 
+  - name: set NFSv4 options
+    set_fact:
+      rh8_options:
+        - {'section': 'nfsd', 'option': 'vers3', 'value': 'no'}
+      rh7_options:
+        - {'regexp': 'RPCNFSDARGS', 'line': 'RPCNFSDARGS="-N 2 -N 3"'}
+    when: nfs_only_v4 | bool
 
-  - name: Lock NFS ports RH8
+  - name: set NFSv3 options
+    set_fact:
+      rh8_options:
+        - {'section': 'lockd', 'option': 'port', 'value': '32803'}
+        - {'section': 'lockd', 'option': 'udp-port', 'value': '32769'}
+        - {'section': 'mountd', 'option': 'port', 'value': '892'}
+      rh7_options:
+        - {'regexp': 'LOCKD_TCPPORT', 'line': 'LOCKD_TCPPORT=32803'}
+        - {'regexp': 'LOCKD_UDPPORT', 'line': 'LOCKD_UDPPORT=32769'}
+        - {'regexp': 'MOUNTD_PORT', 'line': 'MOUNTD_PORT=892'}
+    when: not nfs_only_v4 | bool
+
+  - name: NFS configure RH8
     ini_file:
       path: /etc/nfs.conf
       section: "{{item.section}}"
       option: "{{item.option}}"
       value: "{{item.value}}"
-    with_items:
-    - {'section': 'lockd', 'option': 'port', 'value': '32803'}
-    - {'section': 'lockd', 'option': 'udp-port', 'value': '32769'}
-    - {'section': 'mountd', 'option': 'port', 'value': '892'}
+    with_items: "{{rh8_options}}"
     notify:
      - restart rpcbind
      - restart nfs
     when: ansible_distribution_major_version >=  "8"
+    register: nfs_config8
 
-  - name: Lock NFS ports RH7
+  - name: NFS configure RH7
     lineinfile:
       dest: /etc/sysconfig/nfs
       regexp: "{{item.regexp}}"
       line: "{{item.line}}"
       state: present
       create: yes
-    with_items:
-    - {'regexp': 'LOCKD_TCPPORT', 'line': 'LOCKD_TCPPORT=32803'}
-    - {'regexp': 'LOCKD_UDPPORT', 'line': 'LOCKD_UDPPORT=32769'}
-    - {'regexp': 'MOUNTD_PORT', 'line': 'MOUNTD_PORT=892'}
+    with_items: "{{rh7_options}}"
     notify:
      - restart rpcbind
      - restart nfs
     when: ansible_distribution_major_version <=  "7"
+    register: nfs_config7
+      
+  - name: Open Firewalld nfs port
+    firewalld:
+      service: nfs
+      permanent: yes
+      state: enabled
+    ignore_errors: yes      
+
+  - name: Open Firewalld nfs port
+    firewalld:
+      port: 892/tcp
+      permanent: yes
+      state: enabled
+    ignore_errors: yes
+
