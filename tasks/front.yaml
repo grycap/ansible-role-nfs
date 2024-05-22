@@ -4,7 +4,7 @@
     with_items: "{{ nfs_exports }}"
     register: nfs_exports_result
 
-  - include: "front-{{ansible_os_family}}.yaml"
+  - include_tasks: "front-{{ansible_os_family}}.yaml"
 
   - name: Restart NFS server service
     service: name={{NFS_SERVICE}} state=restarted
@@ -22,5 +22,4 @@
 
   - name: Ensure rpcbind.socket is stopped
     service: name=rpcbind.socket state=stopped enabled=no
-    when: ansible_os_family == "RedHat"
-    when: nfs_only_v4 | bool
+    when: ansible_os_family == "RedHat" and nfs_only_v4 | bool
