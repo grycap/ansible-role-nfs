@@ -1,2 +1,2 @@
 ---
-  - include: "{{nfs_mode}}.yaml"
+  - include_tasks: "{{nfs_mode}}.yaml"
