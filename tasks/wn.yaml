@@ -29,4 +29,7 @@
       src: "{{ item.server_host }}:{{ item.remote }}"
       state: mounted
       fstype: "{{ FSTYPE }}"
+      opts: "{{ item.opts | default(omit) }}"
+      dump: "{{ item.dump | default(omit) }}"
+      passno: "{{ item.passno | default(omit) }}"
     with_items: "{{ nfs_client_imports }}"
