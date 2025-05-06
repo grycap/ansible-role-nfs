@@ -13,26 +13,25 @@ jobs:
 
   molecule:
     name: Molecule
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         distro:
-          - centos8
-          - rockylinux9
-          - ubuntu2004
+#          - rockylinux9
           - ubuntu2204
+          - ubuntu2404
 
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
       - name: Install test dependencies.
-        run: pip3 install ansible==4.10.0 molecule[docker] docker
+        run: pip3 install ansible==8.7.0 molecule-plugins[docker] docker
 
       - name: Run Molecule tests.
         run: molecule test

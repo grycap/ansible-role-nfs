@@ -8,6 +8,7 @@
 
   - name: Restart NFS server service
     service: name={{NFS_SERVICE}} state=restarted
+    when: nfs_exports_result.changed
 
   - name: Check if NFS server service is started
     service: name={{NFS_SERVICE}} state=started enabled=yes
